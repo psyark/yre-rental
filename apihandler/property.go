@@ -101,6 +101,7 @@ type geoJSONFeature struct {
 type geoJSONProperties struct {
 	Kind string `json:"kind"`
 	Name string `json:"name"`
+	NameOrID string `json:"nameOrId"`
 }
 type geoJSON struct {
 	Type string `json:"type"`
@@ -149,17 +150,18 @@ func geoJSONHandler(rw http.ResponseWriter, req *http.Request) {
 	for _, prop := range(properties) {
 		if filterProp(prop) {
 			gj.Features = append(gj.Features, geoJSONFeature{
-				Type:"Feature",
-				Geometry:geoJSONGeopetry{
-					Type:"Point",
+				Type: "Feature",
+				Geometry: geoJSONGeopetry{
+					Type: "Point",
 					Coordinates: []float64{
 						prop.Location.GeoCoord.Lng,
 						prop.Location.GeoCoord.Lat,
 					},
 				},
-				Properties:geoJSONProperties{
-					Name:prop.Name.Ja,
-					Kind:prop.Kind,
+				Properties: geoJSONProperties{
+					Name: prop.Name.Ja,
+					Kind: prop.Kind,
+					NameOrID: prop.NameOrID,
 				},
 			})
 		}
